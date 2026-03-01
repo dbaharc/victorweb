@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Victor's Hair Salon — Shaw, Washington DC</title>
+  <meta name="description" content="Victor's Hair Salon in Shaw, DC. Family-owned, 4th-generation barbers with 30+ years of experience. Book your best haircut today.">
+  <meta property="og:title" content="Victor's Hair Salon — Shaw, DC">
+  <meta property="og:description" content="A family-owned salon where craftsmanship and modern style meet. Book online today.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black:    #090909;
+      --dark:     #111111;
+      --dark2:    #1A1A1A;
+      --gold:     #C8A96E;
+      --gold-lt:  #DFC08A;
+      --white:    #FFFFFF;
+      --off:      #F7F4EF;
+      --gray:     #888;
+      --dgray:    #444;
+      --serif:    'Playfair Display', Georgia, serif;
+      --sans:     'Inter', system-ui, sans-serif;
+      --ease:     0.3s ease;
+      --max:      1180px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--sans); color: var(--dark); background: var(--white); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      padding: 1.5rem 2.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background var(--ease), padding var(--ease);
+    }
+    nav.scrolled {
+      background: rgba(9,9,9,0.96);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      padding: 1rem 2.5rem;
+      border-bottom: 1px solid rgba(200,169,110,0.12);
+    }
+    .nav-logo {
+      font-family: var(--serif); font-size: 1.4rem; font-weight: 700;
+      color: var(--white); text-decoration: none;
+    }
+    .nav-logo span { color: var(--gold); }
+    .nav-links { display: flex; align-items: center; gap: 2.25rem; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,0.75); text-decoration: none;
+      font-size: 0.8rem; font-weight: 500; letter-spacing: 0.09em; text-transform: uppercase;
+      transition: color var(--ease);
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta {
+      background: var(--gold) !important; color: var(--black) !important;
+      padding: 0.55rem 1.35rem; border-radius: 2px; font-weight: 600 !important;
+      transition: background var(--ease), transform var(--ease) !important;
+    }
+    .nav-cta:hover { background: var(--gold-lt) !important; transform: translateY(-1px); }
+
+    /* hamburger */
+    .hbg { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 6px; }
+    .hbg span { display: block; width: 22px; height: 2px; background: var(--white); transition: all .3s; }
+    .hbg.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+    .hbg.open span:nth-child(2) { opacity: 0; }
+    .hbg.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+    .mob-nav {
+      display: none; position: fixed; inset: 0; z-index: 999;
+      background: var(--dark); flex-direction: column; align-items: center; justify-content: center; gap: 2rem;
+    }
+    .mob-nav.open { display: flex; }
+    .mob-nav a { font-family: var(--serif); font-size: 2.25rem; color: var(--white); text-decoration: none; transition: color var(--ease); }
+    .mob-nav a:hover { color: var(--gold); }
+
+    /* ── HERO ── */
+    #hero {
+      position: relative; height: 100vh; min-height: 680px;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1920&q=80') center 30% / cover no-repeat;
+      transform: scale(1.06); transition: transform 8s ease;
+    }
+    .hero-bg.loaded { transform: scale(1); }
+    .hero-ov {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,.35) 0%, rgba(0,0,0,.6) 55%, rgba(0,0,0,.82) 100%);
+    }
+    .hero-content {
+      position: relative; text-align: center; color: var(--white);
+      padding: 0 1.5rem; max-width: 780px;
+    }
+    .eyebrow {
+      display: inline-block; font-size: 0.68rem; font-weight: 600;
+      letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold);
+      margin-bottom: 1.5rem; opacity: 0; transform: translateY(18px);
+      animation: fu .8s ease .2s forwards;
+    }
+    .hero-title {
+      font-family: var(--serif); font-size: clamp(3rem, 8vw, 6rem); font-weight: 900;
+      line-height: 1.04; margin-bottom: 1.5rem;
+      opacity: 0; transform: translateY(18px); animation: fu .8s ease .45s forwards;
+    }
+    .hero-title em { font-style: italic; color: var(--gold); }
+    .hero-sub {
+      font-size: 1.1rem; font-weight: 300; color: rgba(255,255,255,.82);
+      line-height: 1.75; margin: 0 auto 2.5rem; max-width: 500px;
+      opacity: 0; transform: translateY(18px); animation: fu .8s ease .65s forwards;
+    }
+    .hero-btns {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+      opacity: 0; transform: translateY(18px); animation: fu .8s ease .85s forwards;
+    }
+    .btn-gold {
+      display: inline-block; background: var(--gold); color: var(--black);
+      padding: .95rem 2.4rem; font-size: .82rem; font-weight: 600;
+      letter-spacing: .1em; text-transform: uppercase; text-decoration: none; border-radius: 2px;
+      transition: background var(--ease), transform var(--ease), box-shadow var(--ease);
+    }
+    .btn-gold:hover { background: var(--gold-lt); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(200,169,110,.38); }
+    .btn-ghost {
+      display: inline-block; background: transparent; color: var(--white);
+      padding: .95rem 2.4rem; font-size: .82rem; font-weight: 600;
+      letter-spacing: .1em; text-transform: uppercase; text-decoration: none;
+      border: 1px solid rgba(255,255,255,.38); border-radius: 2px;
+      transition: border-color var(--ease), color var(--ease), transform var(--ease);
+    }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+    .scroll-hint {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      color: rgba(255,255,255,.4); font-size: .62rem; letter-spacing: .2em; text-transform: uppercase;
+      opacity: 0; animation: fu .8s ease 1.4s forwards;
+    }
+    .scroll-line {
+      width: 1px; height: 40px; background: rgba(255,255,255,.2); position: relative; overflow: hidden;
+    }
+    .scroll-line::after {
+      content: ''; position: absolute; top: -100%; left: 0; width: 100%; height: 100%;
+      background: var(--gold); animation: sl 1.6s ease infinite;
+    }
+
+    /* ── STATS BAR ── */
+    .stats {
+      background: var(--dark); display: flex; justify-content: center;
+      flex-wrap: wrap; padding: 2rem 1rem;
+    }
+    .stat {
+      text-align: center; padding: 1rem 3rem;
+      border-right: 1px solid rgba(255,255,255,.08);
+      opacity: 0; transform: translateY(10px); transition: opacity .5s ease, transform .5s ease;
+    }
+    .stat:last-child { border-right: none; }
+    .stat.vis { opacity: 1; transform: none; }
+    .stat-n { font-family: var(--serif); font-size: 2.2rem; font-weight: 700; color: var(--gold); display: block; }
+    .stat-l { font-size: .7rem; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.42); margin-top: .2rem; }
+
+    /* ── ABOUT ── */
+    #about {
+      padding: 8rem 2.5rem; max-width: var(--max); margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center;
+    }
+    .sec-eyebrow { display: inline-block; font-size: .68rem; font-weight: 600; letter-spacing: .28em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.1rem; }
+    .sec-title { font-family: var(--serif); font-size: clamp(1.9rem, 3.5vw, 2.9rem); font-weight: 700; line-height: 1.2; margin-bottom: 1.4rem; }
+    .sec-title em { font-style: italic; color: var(--gold); }
+    .about-text p { font-size: 1.02rem; line-height: 1.82; color: var(--dgray); margin-bottom: 1.2rem; }
+    .img-frame {
+      position: relative;
+    }
+    .img-frame::before {
+      content: ''; position: absolute; top: -1.25rem; right: -1.25rem; bottom: 1.25rem; left: 1.25rem;
+      border: 1.5px solid var(--gold); opacity: .28; z-index: 0;
+    }
+    .img-frame img { position: relative; z-index: 1; width: 100%; aspect-ratio: 4/5; object-fit: cover; display: block; }
+
+    /* ── SERVICES ── */
+    #services { background: var(--dark); padding: 8rem 2.5rem; }
+    .svc-inner { max-width: var(--max); margin: 0 auto; }
+    .svc-head { text-align: center; margin-bottom: 4rem; }
+    .svc-head .sec-title { color: var(--white); }
+    .svc-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.5px; background: rgba(255,255,255,.05);
+    }
+    .svc-card {
+      background: var(--dark); padding: 2.75rem 2.25rem;
+      opacity: 0; transform: translateY(18px);
+      transition: opacity .5s ease, transform .5s ease, background .3s ease;
+    }
+    .svc-card:hover { background: var(--dark2); }
+    .svc-card.vis { opacity: 1; transform: none; }
+    .svc-icon { font-size: 1.7rem; display: block; margin-bottom: 1rem; }
+    .svc-line { width: 2rem; height: 2px; background: var(--gold); margin-bottom: 1.1rem; }
+    .svc-name { font-family: var(--serif); font-size: 1.3rem; font-weight: 700; color: var(--white); margin-bottom: .6rem; }
+    .svc-desc { font-size: .875rem; line-height: 1.72; color: rgba(255,255,255,.45); }
+
+    /* ── GALLERY ── */
+    #gallery { background: var(--off); padding: 8rem 2.5rem; }
+    .gal-inner { max-width: var(--max); margin: 0 auto; }
+    .gal-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 2.5rem; }
+    .gal-head a { font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; color: var(--gray); text-decoration: none; transition: color var(--ease); }
+    .gal-head a:hover { color: var(--gold); }
+    .gal-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: 260px;
+      gap: .75rem;
+    }
+    .gal-item {
+      overflow: hidden;
+      opacity: 0; transform: scale(.97);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .gal-item.vis { opacity: 1; transform: scale(1); }
+    .gal-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+    .gal-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s ease; }
+    .gal-item:hover img { transform: scale(1.05); }
+
+    /* ── REVIEWS ── */
+    #reviews { background: var(--dark); padding: 8rem 2.5rem; }
+    .rev-inner { max-width: var(--max); margin: 0 auto; }
+    .rev-head { text-align: center; margin-bottom: 4rem; }
+    .rev-head .sec-title { color: var(--white); }
+    .rev-stars { color: var(--gold); font-size: 1.2rem; letter-spacing: .1em; margin-bottom: .4rem; }
+    .rev-meta { font-size: .875rem; color: rgba(255,255,255,.38); }
+    .rev-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+    .rev-card {
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07);
+      padding: 2.25rem;
+      opacity: 0; transform: translateY(18px);
+      transition: opacity .5s ease, transform .5s ease, border-color .3s ease;
+    }
+    .rev-card:hover { border-color: rgba(200,169,110,.28); }
+    .rev-card.vis { opacity: 1; transform: none; }
+    .rev-card-stars { color: var(--gold); font-size: .85rem; margin-bottom: 1.1rem; }
+    .rev-quote { font-family: var(--serif); font-size: 1.02rem; font-style: italic; line-height: 1.72; color: rgba(255,255,255,.8); margin-bottom: 1.4rem; }
+    .rev-author { font-size: .75rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); }
+    .rev-source { font-size: .72rem; color: rgba(255,255,255,.28); margin-top: .2rem; }
+    .rev-cta { text-align: center; margin-top: 3rem; }
+    .btn-out {
+      display: inline-block; color: var(--gold); border: 1px solid rgba(200,169,110,.35);
+      padding: .8rem 2.25rem; font-size: .76rem; font-weight: 600;
+      letter-spacing: .1em; text-transform: uppercase; text-decoration: none; border-radius: 2px;
+      transition: border-color var(--ease), background var(--ease);
+    }
+    .btn-out:hover { border-color: var(--gold); background: rgba(200,169,110,.1); }
+
+    /* ── BOOKING ── */
+    #book { display: grid; grid-template-columns: 1fr 1fr; }
+    .book-panel {
+      padding: 7rem 4.5rem;
+      display: flex; flex-direction: column; align-items: flex-start;
+    }
+    .book-victor { background: var(--black); }
+    .book-irma   { background: var(--dark2); border-left: 1px solid rgba(255,255,255,.05); }
+    .book-lbl { font-size: .65rem; font-weight: 600; letter-spacing: .28em; text-transform: uppercase; color: var(--gold); margin-bottom: .9rem; }
+    .book-name { font-family: var(--serif); font-size: clamp(2rem, 3vw, 2.8rem); font-weight: 700; color: var(--white); margin-bottom: 1rem; }
+    .book-bio { font-size: .9375rem; line-height: 1.72; color: rgba(255,255,255,.45); margin-bottom: 2.25rem; max-width: 360px; }
+    .book-tags { display: flex; flex-wrap: wrap; gap: .45rem; margin-bottom: 2.25rem; }
+    .book-tag { font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.45); border: 1px solid rgba(255,255,255,.14); padding: .3rem .8rem; border-radius: 100px; }
+
+    /* ── LOCATION ── */
+    #location { background: var(--off); padding: 8rem 2.5rem; }
+    .loc-inner { max-width: var(--max); margin: 0 auto; display: grid; grid-template-columns: 1fr 1.55fr; gap: 5rem; align-items: start; }
+    .loc-info { padding-top: .5rem; }
+    .info-block { margin-bottom: 2.25rem; }
+    .info-lbl { font-size: .65rem; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); margin-bottom: .65rem; }
+    .info-val { font-size: 1rem; line-height: 1.72; color: var(--dark); }
+    .info-val a { color: var(--dark); text-decoration: none; transition: color var(--ease); }
+    .info-val a:hover { color: var(--gold); }
+    .hrs { display: grid; grid-template-columns: auto 1fr; gap: .3rem 1.5rem; }
+    .hrs-day { font-weight: 500; font-size: .94rem; }
+    .hrs-time { color: var(--dgray); font-size: .94rem; }
+    .map-wrap { width: 100%; height: 460px; overflow: hidden; }
+    .map-wrap iframe { width: 100%; height: 100%; border: 0; display: block; filter: grayscale(15%); }
+
+    /* ── FOOTER ── */
+    footer { background: var(--black); padding: 4rem 2.5rem 2.5rem; }
+    .ft-inner { max-width: var(--max); margin: 0 auto; }
+    .ft-top {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      padding-bottom: 3rem; border-bottom: 1px solid rgba(255,255,255,.07); margin-bottom: 2rem;
+    }
+    .ft-logo { font-family: var(--serif); font-size: 1.65rem; font-weight: 700; color: var(--white); }
+    .ft-logo span { color: var(--gold); }
+    .ft-tag { font-size: .84rem; color: rgba(255,255,255,.3); margin-top: .4rem; }
+    .ft-cols { display: flex; gap: 3.5rem; }
+    .ft-col h4 { font-size: .65rem; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); margin-bottom: .9rem; }
+    .ft-col a { display: block; font-size: .875rem; color: rgba(255,255,255,.38); text-decoration: none; margin-bottom: .45rem; transition: color var(--ease); }
+    .ft-col a:hover { color: var(--white); }
+    .ft-bot { display: flex; justify-content: space-between; align-items: center; font-size: .78rem; color: rgba(255,255,255,.28); }
+    .socials { display: flex; gap: 1.5rem; }
+    .socials a { color: rgba(255,255,255,.35); text-decoration: none; font-size: .78rem; letter-spacing: .06em; transition: color var(--ease); }
+    .socials a:hover { color: var(--gold); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fu { to { opacity: 1; transform: translateY(0); } }
+    @keyframes sl { 0% { top: -100%; } 100% { top: 100%; } }
+    .fu { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+    .fu.vis { opacity: 1; transform: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .hbg { display: flex; }
+      #about { grid-template-columns: 1fr; gap: 3rem; padding: 5rem 1.5rem; }
+      .img-frame { order: -1; }
+      .svc-grid { grid-template-columns: repeat(2,1fr); }
+      .gal-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 220px; }
+      .gal-item:nth-child(1) { grid-column: span 1; grid-row: span 1; }
+      .rev-grid { grid-template-columns: 1fr; }
+      #book { grid-template-columns: 1fr; }
+      .book-panel { padding: 4.5rem 2rem; }
+      .loc-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .stats { gap: 0; }
+      .stat { border-right: none; padding: .75rem 2rem; }
+      .ft-top { flex-direction: column; gap: 2.5rem; }
+      .ft-cols { flex-wrap: wrap; gap: 2rem; }
+      .ft-bot { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+    @media (max-width: 600px) {
+      .svc-grid { grid-template-columns: 1fr; }
+      .gal-grid { grid-template-columns: 1fr; }
+      .hero-btns { flex-direction: column; align-items: center; }
+      .gal-head { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo">Victor<span>'s</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#location">Visit Us</a></li>
+    <li><a href="https://victorthebarber.square.site" target="_blank" rel="noopener" class="nav-cta">Book Now</a></li>
+  </ul>
+  <button class="hbg" id="hbg" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mob-nav" id="mob-nav">
+  <a href="#about"    class="ml">About</a>
+  <a href="#services" class="ml">Services</a>
+  <a href="#gallery"  class="ml">Gallery</a>
+  <a href="#reviews"  class="ml">Reviews</a>
+  <a href="#location" class="ml">Visit Us</a>
+  <a href="https://victorthebarber.square.site" target="_blank" rel="noopener" style="color:var(--gold)">Book Now</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg" id="hero-bg"></div>
+  <div class="hero-ov"></div>
+  <div class="hero-content">
+    <span class="eyebrow">Shaw · Washington, DC · Est. 30+ Years</span>
+    <h1 class="hero-title">Your Best<br><em>Haircut</em><br>Starts Here</h1>
+    <p class="hero-sub">A family-owned salon where craftsmanship, tradition, and modern style come together. Walk in. Leave looking sharp.</p>
+    <div class="hero-btns">
+      <a href="https://victorthebarber.square.site" target="_blank" rel="noopener" class="btn-gold">Book with Victor</a>
+      <a href="https://irmahairstylist.square.site"  target="_blank" rel="noopener" class="btn-ghost">Book with Irma</a>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats" id="stats">
+  <div class="stat"><span class="stat-n">30+</span><span class="stat-l">Years of Experience</span></div>
+  <div class="stat"><span class="stat-n">4.6★</span><span class="stat-l">Average Rating</span></div>
+  <div class="stat"><span class="stat-n">4th</span><span class="stat-l">Generation Barbers</span></div>
+  <div class="stat"><span class="stat-n">100s</span><span class="stat-l">Happy Clients</span></div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-text fu">
+    <span class="sec-eyebrow">Our Story</span>
+    <h2 class="sec-title">More Than a Haircut.<br>It's a <em>Tradition.</em></h2>
+    <p>Victor's Hair Salon has been a cornerstone of the Shaw neighborhood for decades. Victor, a fourth-generation barber with over 30 years of experience, brings a rare combination of old-school mastery and modern technique to every cut.</p>
+    <p>Alongside his wife Irma — equally accomplished with 30 years of her own — they've built something uncommon: a true family salon where every client is treated like a regular, every cut is given full attention, and every person leaves feeling their absolute best.</p>
+    <p>Nestled on T Street NW in the heart of Shaw, it's the kind of place the neighborhood is proud to call its own. Walk-ins always welcome.</p>
+  </div>
+  <div class="img-frame fu">
+    <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&w=800&h=1000&q=80" alt="Classic barber shop interior">
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="svc-inner">
+    <div class="svc-head fu">
+      <span class="sec-eyebrow">What We Do</span>
+      <h2 class="sec-title">Craftsmanship in<br>Every <em>Cut</em></h2>
+    </div>
+    <div class="svc-grid">
+      <div class="svc-card">
+        <span class="svc-icon">✂️</span>
+        <div class="svc-line"></div>
+        <h3 class="svc-name">Precision Cuts</h3>
+        <p class="svc-desc">Classic and contemporary haircuts tailored to your face shape, hair type, and personal style. Every time.</p>
+      </div>
+      <div class="svc-card">
+        <span class="svc-icon">💈</span>
+        <div class="svc-line"></div>
+        <h3 class="svc-name">Fades &amp; Tapers</h3>
+        <p class="svc-desc">Skin fades, low fades, mid fades — executed with the precision that only decades of practice can deliver.</p>
+      </div>
+      <div class="svc-card">
+        <span class="svc-icon">🪒</span>
+        <div class="svc-line"></div>
+        <h3 class="svc-name">Beard Grooming</h3>
+        <p class="svc-desc">Shape, trim, and define your beard with techniques passed down through generations of master barbers.</p>
+      </div>
+      <div class="svc-card">
+        <span class="svc-icon">💇‍♀️</span>
+        <div class="svc-line"></div>
+        <h3 class="svc-name">Women's Styling</h3>
+        <p class="svc-desc">Cuts, blowouts, and up-dos for any occasion — from everyday elegance to your most important events.</p>
+      </div>
+      <div class="svc-card">
+        <span class="svc-icon">🎨</span>
+        <div class="svc-line"></div>
+        <h3 class="svc-name">Color &amp; Highlights</h3>
+        <p class="svc-desc">Full color treatments, balayage, highlights, and touch-ups by an experienced, detail-oriented colorist.</p>
+      </div>
+      <div class="svc-card">
+        <span class="svc-icon">👦</span>
+        <div class="svc-line"></div>
+        <h3 class="svc-name">Kids' Cuts</h3>
+        <p class="svc-desc">Gentle, patient, and fun cuts for the little ones. A family tradition in Shaw for over three decades.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="gal-inner">
+    <div class="gal-head fu">
+      <div>
+        <span class="sec-eyebrow">The Work</span>
+        <h2 class="sec-title">Crafted with<br><em>Pride</em></h2>
+      </div>
+      <a href="https://www.facebook.com/Hairatvictors" target="_blank" rel="noopener">Follow Along ↗</a>
+    </div>
+    <div class="gal-grid">
+      <div class="gal-item">
+        <img src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?auto=format&fit=crop&w=900&h=640&q=80" alt="Barber at work">
+      </div>
+      <div class="gal-item">
+        <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?auto=format&fit=crop&w=600&h=400&q=80" alt="Precision fade">
+      </div>
+      <div class="gal-item">
+        <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&w=600&h=400&q=80" alt="Barbershop interior">
+      </div>
+      <div class="gal-item">
+        <img src="https://images.unsplash.com/photo-1512690459411-b9245aed614b?auto=format&fit=crop&w=600&h=400&q=80" alt="Barber tools">
+      </div>
+      <div class="gal-item">
+        <img src="https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=600&h=400&q=80" alt="Fresh haircut">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="rev-inner">
+    <div class="rev-head fu">
+      <span class="sec-eyebrow">Testimonials</span>
+      <h2 class="sec-title">What Our Clients<br>Are <em>Saying</em></h2>
+      <div class="rev-stars">★★★★★</div>
+      <p class="rev-meta">4.6 stars across 90+ reviews on Google &amp; Yelp</p>
+    </div>
+    <div class="rev-grid">
+      <div class="rev-card">
+        <div class="rev-card-stars">★★★★★</div>
+        <p class="rev-quote">"Great little neighborhood shop! I've gotten cuts from both Victor and Irma — they're both kind, attentive professionals at a great price. Exactly the kind of place Shaw deserves."</p>
+        <div class="rev-author">Satisfied Client</div>
+        <div class="rev-source">Google Review</div>
+      </div>
+      <div class="rev-card">
+        <div class="rev-card-stars">★★★★★</div>
+        <p class="rev-quote">"Irma is my go-to stylist. I've never been good at articulating what I want, but she always nails exactly what I'd like. An absolute talent — I wouldn't go anywhere else."</p>
+        <div class="rev-author">Regular Client</div>
+        <div class="rev-source">Yelp Review</div>
+      </div>
+      <div class="rev-card">
+        <div class="rev-card-stars">★★★★★</div>
+        <p class="rev-quote">"Victor is great — I've been coming here for years. Never rushed, always gets me right. Outstanding haircuts at a great price. One of the best in DC, no question."</p>
+        <div class="rev-author">Long-Time Customer</div>
+        <div class="rev-source">Google Review</div>
+      </div>
+    </div>
+    <div class="rev-cta">
+      <a href="https://www.yelp.com/biz/victor-hair-salon-washington" target="_blank" rel="noopener" class="btn-out">Read All Reviews ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- BOOK -->
+<section id="book">
+  <div class="book-panel book-victor">
+    <span class="book-lbl">Book Your Appointment</span>
+    <h2 class="book-name">Book with<br>Victor</h2>
+    <p class="book-bio">Fourth-generation barber with over 30 years of experience. Precision cuts, clean fades, and beard grooming done right — every single time.</p>
+    <div class="book-tags">
+      <span class="book-tag">Haircuts</span>
+      <span class="book-tag">Fades</span>
+      <span class="book-tag">Beard Grooming</span>
+      <span class="book-tag">Kids' Cuts</span>
+    </div>
+    <a href="https://victorthebarber.square.site" target="_blank" rel="noopener" class="btn-gold">Book Victor →</a>
+  </div>
+  <div class="book-panel book-irma">
+    <span class="book-lbl">Book Your Appointment</span>
+    <h2 class="book-name">Book with<br>Irma</h2>
+    <p class="book-bio">30+ years of styling expertise. Women's cuts, up-dos, balayage, color treatments, and blowouts — crafted with care for every occasion.</p>
+    <div class="book-tags">
+      <span class="book-tag">Women's Cuts</span>
+      <span class="book-tag">Color</span>
+      <span class="book-tag">Up-dos</span>
+      <span class="book-tag">Blowouts</span>
+    </div>
+    <a href="https://irmahairstylist.square.site" target="_blank" rel="noopener" class="btn-gold">Book Irma →</a>
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section id="location">
+  <div class="loc-inner">
+    <div class="loc-info fu">
+      <span class="sec-eyebrow">Find Us</span>
+      <h2 class="sec-title">Come See Us<br>in <em>Shaw</em></h2>
+      <div class="info-block">
+        <p class="info-lbl">Address</p>
+        <p class="info-val">
+          <a href="https://maps.google.com/?q=803+T+St+NW+Washington+DC+20001" target="_blank" rel="noopener">
+            803 T St NW<br>Washington, DC 20001
+          </a>
+        </p>
+      </div>
+      <div class="info-block">
+        <p class="info-lbl">Phone</p>
+        <p class="info-val"><a href="tel:+12027970066">(202) 797-0066</a></p>
+      </div>
+      <div class="info-block">
+        <p class="info-lbl">Hours</p>
+        <div class="hrs">
+          <span class="hrs-day">Mon – Fri</span>  <span class="hrs-time">9:00 AM – 7:00 PM</span>
+          <span class="hrs-day">Saturday</span>   <span class="hrs-time">9:00 AM – 5:00 PM</span>
+          <span class="hrs-day">Sunday</span>     <span class="hrs-time">Closed</span>
+        </div>
+      </div>
+      <div class="info-block">
+        <p class="info-lbl">Walk-ins</p>
+        <p class="info-val">Always welcome. Appointments preferred.</p>
+      </div>
+    </div>
+    <div class="map-wrap fu">
+      <iframe
+        src="https://maps.google.com/maps?q=803+T+St+NW,+Washington,+DC+20001&output=embed&z=16"
+        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        title="Victor's Hair Salon — 803 T St NW, Washington DC">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-inner">
+    <div class="ft-top">
+      <div>
+        <div class="ft-logo">Victor<span>'s</span> Hair Salon</div>
+        <p class="ft-tag">Generations of craft. Shaw's finest cut.</p>
+      </div>
+      <div class="ft-cols">
+        <div class="ft-col">
+          <h4>Navigate</h4>
+          <a href="#about">About</a>
+          <a href="#services">Services</a>
+          <a href="#gallery">Gallery</a>
+          <a href="#reviews">Reviews</a>
+          <a href="#location">Visit Us</a>
+        </div>
+        <div class="ft-col">
+          <h4>Book Online</h4>
+          <a href="https://victorthebarber.square.site" target="_blank" rel="noopener">Book with Victor</a>
+          <a href="https://irmahairstylist.square.site"  target="_blank" rel="noopener">Book with Irma</a>
+        </div>
+        <div class="ft-col">
+          <h4>Contact</h4>
+          <a href="tel:+12027970066">(202) 797-0066</a>
+          <a href="https://maps.google.com/?q=803+T+St+NW+Washington+DC" target="_blank" rel="noopener">803 T St NW, DC</a>
+        </div>
+      </div>
+    </div>
+    <div class="ft-bot">
+      <span>© 2025 Victor's Hair Salon. All rights reserved.</span>
+      <div class="socials">
+        <a href="https://www.facebook.com/Hairatvictors" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://www.yelp.com/biz/victor-hair-salon-washington" target="_blank" rel="noopener">Yelp</a>
+        <a href="https://victorthebarber.square.site" target="_blank" rel="noopener">Book Online</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Scroll nav
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 80));
+
+  // Mobile menu
+  const hbg = document.getElementById('hbg');
+  const mobNav = document.getElementById('mob-nav');
+  hbg.addEventListener('click', () => {
+    hbg.classList.toggle('open');
+    mobNav.classList.toggle('open');
+    document.body.style.overflow = mobNav.classList.contains('open') ? 'hidden' : '';
+  });
+  document.querySelectorAll('.ml').forEach(a => a.addEventListener('click', () => {
+    hbg.classList.remove('open');
+    mobNav.classList.remove('open');
+    document.body.style.overflow = '';
+  }));
+
+  // Hero parallax bg load
+  const heroBg = document.getElementById('hero-bg');
+  const img = new Image();
+  img.onload = () => heroBg.classList.add('loaded');
+  img.src = 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1920&q=80';
+
+  // Intersection observer
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fu, .stat, .svc-card, .gal-item, .rev-card').forEach((el, i) => {
+    obs.observe(el);
+  });
+
+  // Stagger delays
+  document.querySelectorAll('.svc-card').forEach((c,i) => c.style.transitionDelay = `${i*0.09}s`);
+  document.querySelectorAll('.rev-card').forEach((c,i) => c.style.transitionDelay = `${i*0.13}s`);
+  document.querySelectorAll('.gal-item').forEach((c,i) => c.style.transitionDelay = `${i*0.08}s`);
+  document.querySelectorAll('.stat').forEach((c,i)    => c.style.transitionDelay = `${i*0.1}s`);
+</script>
+</body>
+</html>
