@@ -224,25 +224,25 @@
     .gal-item:hover img { transform: scale(1.05); }
 
     /* ── REVIEWS ── */
-    #reviews { background: var(--dark); padding: 8rem 2.5rem; }
+    #reviews { background: var(--off); padding: 8rem 2.5rem; }
     .rev-inner { max-width: var(--max); margin: 0 auto; }
     .rev-head { text-align: center; margin-bottom: 4rem; }
-    .rev-head .sec-title { color: var(--white); }
+    .rev-head .sec-title { color: var(--dark); }
     .rev-stars { color: var(--gold); font-size: 1.2rem; letter-spacing: .1em; margin-bottom: .4rem; }
-    .rev-meta { font-size: .875rem; color: rgba(255,255,255,.38); }
+    .rev-meta { font-size: .875rem; color: var(--gray); }
     .rev-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
     .rev-card {
-      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07);
+      background: var(--white); border: 1px solid rgba(0,0,0,.08);
       padding: 2.25rem;
       opacity: 0; transform: translateY(18px);
       transition: opacity .5s ease, transform .5s ease, border-color .3s ease;
     }
-    .rev-card:hover { border-color: rgba(200,169,110,.28); }
+    .rev-card:hover { border-color: var(--gold); }
     .rev-card.vis { opacity: 1; transform: none; }
     .rev-card-stars { color: var(--gold); font-size: .85rem; margin-bottom: 1.1rem; }
-    .rev-quote { font-family: var(--serif); font-size: 1.02rem; font-style: italic; line-height: 1.72; color: rgba(255,255,255,.8); margin-bottom: 1.4rem; }
+    .rev-quote { font-family: var(--serif); font-size: 1.02rem; font-style: italic; line-height: 1.72; color: var(--dgray); margin-bottom: 1.4rem; }
     .rev-author { font-size: .75rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); }
-    .rev-source { font-size: .72rem; color: rgba(255,255,255,.28); margin-top: .2rem; }
+    .rev-source { font-size: .72rem; color: var(--gray); margin-top: .2rem; }
     .rev-cta { text-align: center; margin-top: 3rem; }
     .btn-out {
       display: inline-block; color: var(--gold); border: 1px solid rgba(200,169,110,.35);
